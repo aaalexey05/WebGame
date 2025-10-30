@@ -1,0 +1,1298 @@
+
+/* =======================
+   ГЛОБАЛЬНЫЕ СТИЛИ
+   ======================= */
+
+/**
+ * Сброс отступов и паддингов для всех элементов
+ * box-sizing: border-box - включает padding и border в общую ширину элемента
+ */
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =======================
+   ОСНОВНЫЕ СТИЛИ BODY
+   ======================= */
+
+/**
+ * Стили основного контейнера страницы
+ * font-family - основной шрифт игры
+ * background - градиентный фон (фиолетовый)
+ * min-height: 100vh - минимум на всю высоту экрана
+ * display: flex - для центрирования контента
+ * overflow-x: hidden - убирает горизонтальную прокрутку
+ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+
+/* =======================
+   АНИМИРОВАННЫЙ ФОН
+   ======================= */
+
+/**
+ * Псевдоэлемент для создания анимированного фонового эффекта
+ * Создает два радиальных градиента, которые плавно двигаются
+ * position: fixed - фиксированное положение на всю страницу
+ * pointer-events: none - не перехватывает клики мыши
+ * z-index: 0 - находится под всем контентом
+ */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    animation: backgroundMove 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+/**
+ * Анимация движения фона
+ * Плавно сдвигает фон на 50px вправо и 30px вниз и обратно
+ * Длительность 20 секунд, бесконечный цикл
+ */
+@keyframes backgroundMove {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(50px, 30px); }
+}
+
+
+/* =======================
+   ГЛАВНЫЙ КОНТЕЙНЕР ИГРЫ
+   ======================= */
+
+/**
+ * Основной белый контейнер с игрой
+ * background: rgba - полупрозрачный белый фон
+ * border-radius: 30px - скругленные углы
+ * box-shadow - объемная тень
+ * max-width: 800px - максимальная ширина
+ * z-index: 1 - выше анимированного фона
+ */
+.game-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =======================
+   ШАПКА (HEADER)
+   ======================= */
+
+/**
+ * Верхняя часть с отображением счета
+ * background - градиентный фон (совпадает с body)
+ * color: white - белый текст
+ * padding: 30px - внутренние отступы
+ * position: relative - для размещения псевдоэлемента
+ * overflow: hidden - скрывает выходящий за границы эффект свечения
+ */
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+
+/**
+ * Анимированное свечение в шапке
+ * Создает радиальный градиент, который плавно двигается
+ * position: absolute - абсолютное позиционирование
+ * animation: headerGlow - анимация движения
+ */
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: headerGlow 3s ease-in-out infinite;
+}
+
+
+/**
+ * Анимация свечения в шапке
+ * Плавно сдвигает свечение на 10px по диагонали и обратно
+ */
+@keyframes headerGlow {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(10px, 10px); }
+}
+
+
+/* =======================
+   ОТОБРАЖЕНИЕ СЧЕТА
+   ======================= */
+
+/**
+ * Контейнер для отображения счета
+ * position: relative - для наложения поверх ::before
+ * z-index: 1 - выше анимированного фона шапки
+ */
+.score-display {
+    position: relative;
+    z-index: 1;
+}
+
+
+/**
+ * Метка "ОЧКИ"
+ * font-size: 18px - размер текста
+ * text-transform: uppercase - все буквы заглавные
+ * letter-spacing: 2px - расстояние между буквами
+ */
+.score-label {
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+
+/**
+ * Значение счета (большое число)
+ * font-size: 48px - крупный шрифт
+ * font-weight: bold - жирный
+ * text-shadow - тень с анимацией
+ * animation: scoreGlow - пульсирующее свечение
+ */
+.score-value {
+    font-size: 48px;
+    font-weight: bold;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    animation: scoreGlow 2s ease-in-out infinite;
+}
+
+
+/**
+ * Анимация пульсирующего свечения для счета
+ * Меняет интенсивность тени
+ */
+@keyframes scoreGlow {
+    0%, 100% { text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
+    50% { text-shadow: 0 2px 20px rgba(255, 255, 255, 0.5); }
+}
+
+
+/**
+ * Отображение дохода в секунду
+ * font-size: 16px - средний размер
+ * opacity: 0.9 - немного прозрачный
+ * z-index: 1 - поверх анимированного фона
+ */
+.per-second {
+    margin-top: 10px;
+    font-size: 16px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =======================
+   НАВИГАЦИЯ ПО ВКЛАДКАМ
+   ======================= */
+
+/**
+ * Контейнер кнопок навигации
+ * display: flex - кнопки в ряд
+ * background: #f5f5f5 - светло-серый фон
+ * border-bottom - нижняя граница
+ */
+.nav-tabs {
+    display: flex;
+    background: #f5f5f5;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+
+/**
+ * Кнопка вкладки (Магазин, Скины, Достижения)
+ * flex: 1 - равная ширина всех кнопок
+ * padding: 20px - внутренние отступы
+ * background: none - прозрачный фон
+ * cursor: pointer - курсор руки при наведении
+ * position: relative - для псевдоэлемента ::after (индикатор)
+ */
+.tab-btn {
+    flex: 1;
+    padding: 20px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+
+/**
+ * Индикатор активной вкладки (линия снизу)
+ * position: absolute - абсолютное позиционирование
+ * bottom: 0 - внизу кнопки
+ * transform: scaleX(0) - изначально скрыт (ширина 0)
+ * width: 80% - занимает 80% ширины кнопки
+ * height: 3px - толщина линии
+ * background - градиентный цвет линии
+ */
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: transform 0.3s ease;
+}
+
+
+/**
+ * Состояние при наведении на кнопку вкладки
+ * color: #667eea - меняет цвет текста
+ * background - легкий фиолетовый фон
+ */
+.tab-btn:hover {
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+
+/**
+ * Активная вкладка
+ * color: #667eea - фиолетовый цвет текста
+ */
+.tab-btn.active {
+    color: #667eea;
+}
+
+
+/**
+ * Показывает индикатор (линию) для активной вкладки
+ * transform: scaleX(1) - разворачивает линию на полную ширину
+ */
+.tab-btn.active::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+
+/* =======================
+   КОНТЕНТ ВКЛАДОК
+   ======================= */
+
+/**
+ * Контейнер содержимого вкладки
+ * display: none - по умолчанию скрыт
+ * padding: 40px - внутренние отступы
+ * min-height: 500px - минимальная высота
+ */
+.tab-content {
+    display: none;
+    padding: 40px;
+    min-height: 500px;
+}
+
+
+/**
+ * Активная (видимая) вкладка
+ * display: block - показывает контент
+ * animation: fadeIn - анимация появления
+ */
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+
+/**
+ * Анимация плавного появления вкладки
+ * Изменяет прозрачность и сдвигает контент снизу вверх
+ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* =======================
+   ИГРОВАЯ СЦЕНА
+   ======================= */
+
+/**
+ * Контейнер с персонажем и кнопкой клика
+ * display: flex - вертикальное размещение
+ * flex-direction: column - элементы друг под другом
+ * align-items: center - центрирование по горизонтали
+ * gap: 40px - расстояние между элементами
+ */
+.game-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    position: relative;
+}
+
+
+/* =======================
+   ПЕРСОНАЖ
+   ======================= */
+
+/**
+ * Контейнер персонажа
+ * width/height: 200px - размер области персонажа
+ * position: relative - для позиционирования внутренних элементов
+ */
+.character-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+
+/**
+ * SVG персонаж
+ * width/height: 100% - занимает всю область контейнера
+ * filter: drop-shadow - добавляет тень персонажу
+ * animation: characterFloat - плавающая анимация
+ */
+.character {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    animation: characterFloat 3s ease-in-out infinite;
+}
+
+
+/**
+ * Анимация плавного парения персонажа
+ * Сдвигает персонажа вверх-вниз на 10px
+ */
+@keyframes characterFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+
+/**
+ * Класс для анимации персонажа при клике
+ * animation: characterJump - прыжок и увеличение
+ */
+.character.happy {
+    animation: characterJump 0.5s ease;
+}
+
+
+/**
+ * Анимация прыжка персонажа при клике
+ * Поднимает на 20px и увеличивает на 10%
+ */
+@keyframes characterJump {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+}
+
+
+/**
+ * Анимация моргания глаз персонажа
+ * Применяется к элементам .char-eye-left и .char-eye-right
+ */
+.char-eye-left, .char-eye-right {
+    animation: blink 4s infinite;
+}
+
+
+/**
+ * Ключевые кадры моргания
+ * Быстро скрывает и показывает глаза (имитация моргания)
+ */
+@keyframes blink {
+    0%, 48%, 52%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+
+/* =======================
+   КНОПКА КЛИКА
+   ======================= */
+
+/**
+ * Главная кнопка для кликов
+ * width/height: 200px - круглая кнопка
+ * border-radius: 50% - делает круглой
+ * background - градиентный фон (розовый/красный)
+ * box-shadow - объемная тень
+ * cursor: pointer - курсор руки
+ * overflow: hidden - скрывает внутренний эффект свечения
+ */
+.click-button {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+    transition: all 0.1s ease;
+    overflow: hidden;
+}
+
+
+/**
+ * Увеличение кнопки при наведении
+ * transform: scale(1.05) - увеличивает на 5%
+ * box-shadow - усиливает тень
+ */
+.click-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+}
+
+
+/**
+ * Сжатие кнопки при нажатии
+ * transform: scale(0.95) - уменьшает на 5%
+ */
+.click-button:active {
+    transform: scale(0.95);
+}
+
+
+/**
+ * Текст кнопки ("КЛИК!")
+ * position: relative - поверх эффекта свечения
+ * z-index: 2 - выше свечения
+ * text-shadow - тень текста
+ */
+.button-text {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+/**
+ * Анимированное свечение внутри кнопки
+ * position: absolute - абсолютное позиционирование
+ * width/height: 200% - больше самой кнопки
+ * animation: buttonGlow - анимация движения свечения
+ */
+.button-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    animation: buttonGlow 2s ease-in-out infinite;
+}
+
+
+/**
+ * Анимация свечения кнопки
+ * Плавно двигает свечение и изменяет размер
+ */
+@keyframes buttonGlow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(10px, 10px) scale(1.1); }
+}
+
+
+/* =======================
+   СИСТЕМА ЧАСТИЦ
+   ======================= */
+
+/**
+ * Контейнер для всех частиц (эффект "+очки")
+ * position: fixed - фиксированное на всей странице
+ * width/height: 100% - на весь экран
+ * pointer-events: none - не перехватывает клики
+ * z-index: 9999 - поверх всего контента
+ */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+
+/**
+ * Отдельная частица (текст "+1", "+5" и т.д.)
+ * position: absolute - позиционируется по координатам клика
+ * font-size: 24px - размер текста
+ * color: #f5576c - розово-красный цвет
+ * animation: particleFloat - анимация взлета и исчезновения
+ */
+.particle {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    color: #f5576c;
+    animation: particleFloat 1s ease-out forwards;
+    pointer-events: none;
+}
+
+
+/**
+ * Анимация взлета и исчезновения частицы
+ * Поднимает частицу на 100px вверх
+ * Увеличивает размер в 1.5 раза
+ * Делает прозрачной (opacity: 0)
+ */
+@keyframes particleFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+    }
+}
+
+
+/* =======================
+   КАТЕГОРИИ МАГАЗИНА
+   ======================= */
+
+/**
+ * Контейнер кнопок категорий (Улучшения / Скины)
+ * display: flex - кнопки в ряд
+ * gap: 10px - расстояние между кнопками
+ * margin-bottom: 30px - отступ снизу перед контентом
+ */
+.shop-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+
+/**
+ * Кнопка категории магазина
+ * flex: 1 - равная ширина кнопок
+ * padding: 15px - внутренние отступы
+ * background: #f5f5f5 - светло-серый фон
+ * border: 2px solid #e0e0e0 - серая рамка
+ * border-radius: 15px - скругленные углы
+ */
+.category-btn {
+    flex: 1;
+    padding: 15px;
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+/**
+ * Наведение на кнопку категории
+ * background: #e8e8e8 - более темный фон
+ * border-color: #667eea - фиолетовая рамка
+ */
+.category-btn:hover {
+    background: #e8e8e8;
+    border-color: #667eea;
+}
+
+
+/**
+ * Активная категория
+ * background - градиентный фон
+ * color: white - белый текст
+ * border-color: transparent - убирает рамку
+ */
+.category-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+}
+
+
+/**
+ * Контейнер категории (скрыт по умолчанию)
+ * display: none - скрыт
+ */
+.shop-category {
+    display: none;
+}
+
+
+/**
+ * Активная категория (показывается)
+ * display: block - видимый
+ */
+.shop-category.active {
+    display: block;
+}
+
+
+/* =======================
+   СЕТКА МАГАЗИНА
+   ======================= */
+
+/**
+ * Сетка для товаров магазина
+ * display: grid - сетка
+ * grid-template-columns - автоматическое заполнение колонок (min 250px)
+ * gap: 20px - расстояние между товарами
+ */
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+
+/**
+ * Карточка товара (улучшение или скин)
+ * background - градиентный серый фон
+ * border-radius: 20px - скругленные углы
+ * padding: 25px - внутренние отступы
+ * box-shadow - тень
+ * position: relative - для псевдоэлемента ::before
+ * overflow: hidden - скрывает выходящий эффект
+ */
+.shop-item {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+
+/**
+ * Эффект цветного наложения при наведении
+ * position: absolute - на всю площадь товара
+ * background - полупрозрачный градиент
+ * opacity: 0 - изначально невидим
+ */
+.shop-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+
+/**
+ * Эффект при наведении на товар
+ * transform: translateY(-5px) - поднимает карточку
+ * box-shadow - усиливает тень
+ */
+.shop-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+/**
+ * Показывает цветное наложение при наведении
+ * opacity: 1 - делает видимым
+ */
+.shop-item:hover::before {
+    opacity: 1;
+}
+
+
+/**
+ * Иконка товара (эмодзи)
+ * font-size: 48px - большой размер
+ * margin-bottom: 15px - отступ снизу
+ * display: block - блочный элемент
+ */
+.shop-item-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+
+/**
+ * Название товара
+ * font-size: 20px - крупный текст
+ * font-weight: bold - жирный
+ * color: #333 - темно-серый
+ * z-index: 1 - поверх эффекта ::before
+ */
+.shop-item-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+
+/**
+ * Описание товара
+ * font-size: 14px - средний размер
+ * color: #666 - серый текст
+ * line-height: 1.5 - межстрочный интервал
+ * z-index: 1 - поверх эффекта
+ */
+.shop-item-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+}
+
+
+/**
+ * Контейнер статистики товара (цена и количество)
+ * display: flex - размещение в ряд
+ * justify-content: space-between - по краям
+ * align-items: center - вертикальное центрирование
+ */
+.shop-item-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+
+/**
+ * Стоимость товара
+ * font-size: 18px - крупный текст
+ * font-weight: bold - жирный
+ * color: #667eea - фиолетовый цвет
+ */
+.shop-item-cost {
+    font-size: 18px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+
+/**
+ * Количество купленных товаров
+ * font-size: 14px - средний размер
+ * color: #999 - светло-серый
+ */
+.shop-item-owned {
+    font-size: 14px;
+    color: #999;
+}
+
+
+/**
+ * Кнопка покупки товара
+ * width: 100% - на всю ширину карточки
+ * padding: 12px - внутренние отступы
+ * background - градиентный фиолетовый фон
+ * color: white - белый текст
+ * border-radius: 10px - скругленные углы
+ * z-index: 1 - поверх эффекта ::before
+ */
+.shop-item-button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+
+/**
+ * Увеличение кнопки при наведении
+ * transform: scale(1.05) - увеличивает на 5%
+ * box-shadow - добавляет тень
+ */
+.shop-item-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+
+/**
+ * Неактивная кнопка (недостаточно средств)
+ * background: #ccc - серый фон
+ * cursor: not-allowed - курсор запрета
+ * transform: none - без эффекта увеличения
+ */
+.shop-item-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/**
+ * Карточка скина (дополнительный класс)
+ * cursor: pointer - курсор руки на всей карточке
+ */
+.shop-item.skin {
+    cursor: pointer;
+}
+
+
+/**
+ * Купленный скин
+ * border: 3px solid #4CAF50 - зеленая рамка
+ */
+.shop-item.skin.owned {
+    border: 3px solid #4CAF50;
+}
+
+
+/**
+ * Активный скин
+ * border: 3px solid #667eea - фиолетовая рамка
+ * box-shadow - светящаяся фиолетовая тень
+ */
+.shop-item.skin.active {
+    border: 3px solid #667eea;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+
+/* =======================
+   ДОСТИЖЕНИЯ
+   ======================= */
+
+/**
+ * Сетка для достижений
+ * display: grid - сетка
+ * grid-template-columns - колонки минимум 280px
+ * gap: 20px - расстояние между карточками
+ */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+
+/**
+ * Карточка достижения
+ * background - градиентный серый фон
+ * border-radius: 20px - скругленные углы
+ * padding: 25px - внутренние отступы
+ * box-shadow - тень
+ */
+.achievement-item {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+
+/**
+ * Разблокированное достижение
+ * background - золотой градиент
+ * animation: achievementUnlock - анимация разблокировки
+ */
+.achievement-item.unlocked {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    animation: achievementUnlock 0.5s ease;
+}
+
+
+/**
+ * Анимация разблокировки достижения
+ * Кратковременно увеличивает размер на 5%
+ */
+@keyframes achievementUnlock {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+
+/**
+ * Заблокированное достижение
+ * opacity: 0.6 - полупрозрачное
+ * filter: grayscale(1) - черно-белое
+ */
+.achievement-item.locked {
+    opacity: 0.6;
+    filter: grayscale(1);
+}
+
+
+/**
+ * Иконка достижения
+ * font-size: 48px - большой размер
+ * margin-bottom: 15px - отступ снизу
+ * display: block - блочный элемент
+ */
+.achievement-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+
+/**
+ * Название достижения
+ * font-size: 20px - крупный текст
+ * font-weight: bold - жирный
+ * color: #333 - темно-серый
+ */
+.achievement-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+
+/**
+ * Описание достижения
+ * font-size: 14px - средний размер
+ * color: #666 - серый текст
+ * line-height: 1.5 - межстрочный интервал
+ */
+.achievement-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+
+/**
+ * Статус достижения (Разблокировано/Заблокировано)
+ * font-size: 14px - средний размер
+ * font-weight: 600 - полужирный
+ * padding: 8px 15px - внутренние отступы
+ * border-radius: 20px - скругленные углы (таблетка)
+ * display: inline-block - инлайн-блочный элемент
+ */
+.achievement-status {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+
+/**
+ * Статус "Разблокировано"
+ * background - полупрозрачный зеленый фон
+ * color: #4CAF50 - зеленый текст
+ */
+.achievement-status.unlocked {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+}
+
+
+/**
+ * Статус "Заблокировано"
+ * background - полупрозрачный черный фон
+ * color: #999 - серый текст
+ */
+.achievement-status.locked {
+    background: rgba(0, 0, 0, 0.1);
+    color: #999;
+}
+
+
+/* =======================
+   ПОДВАЛ (FOOTER)
+   ======================= */
+
+/**
+ * Нижняя часть с кнопкой сброса
+ * background: #f5f5f5 - светло-серый фон
+ * padding: 20px - внутренние отступы
+ * text-align: center - центрирование содержимого
+ * border-top - верхняя граница
+ */
+.footer {
+    background: #f5f5f5;
+    padding: 20px;
+    text-align: center;
+    border-top: 2px solid #e0e0e0;
+}
+
+
+/**
+ * Кнопка сброса прогресса
+ * padding: 12px 30px - внутренние отступы
+ * background: #f44336 - красный фон
+ * color: white - белый текст
+ * border-radius: 10px - скругленные углы
+ * cursor: pointer - курсор руки
+ */
+.reset-button {
+    padding: 12px 30px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+/**
+ * Эффект при наведении на кнопку сброса
+ * background: #d32f2f - более темный красный
+ * transform: scale(1.05) - увеличивает на 5%
+ */
+.reset-button:hover {
+    background: #d32f2f;
+    transform: scale(1.05);
+}
+
+
+/* =======================
+   АДАПТИВНЫЙ ДИЗАЙН (ПЛАНШЕТЫ)
+   ======================= */
+
+/**
+ * Стили для экранов шириной до 768px (планшеты)
+ */
+@media (max-width: 768px) {
+    /**
+     * Убирает скругление углов на мобильных
+     * max-width: 100% - на всю ширину экрана
+     */
+    .game-container {
+        border-radius: 0;
+        max-width: 100%;
+    }
+
+    /**
+     * Уменьшает отступы контента вкладок
+     * padding: 20px - меньше отступы
+     * min-height: 400px - меньше минимальная высота
+     */
+    .tab-content {
+        padding: 20px;
+        min-height: 400px;
+    }
+
+    /**
+     * Одноколоночная сетка на планшетах
+     * grid-template-columns: 1fr - одна колонка
+     */
+    .shop-grid, .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /**
+     * Уменьшает размер счета
+     * font-size: 36px - меньше размер
+     */
+    .score-value {
+        font-size: 36px;
+    }
+
+    /**
+     * Уменьшает размер кнопки клика
+     * width/height: 150px - меньше размер
+     * font-size: 24px - меньше текст
+     */
+    .click-button {
+        width: 150px;
+        height: 150px;
+        font-size: 24px;
+    }
+
+    /**
+     * Уменьшает размер персонажа
+     * width/height: 150px
+     */
+    .character-container {
+        width: 150px;
+        height: 150px;
+    }
+
+    /**
+     * Уменьшает размер кнопок вкладок
+     * padding: 15px 10px - меньше отступы
+     * font-size: 14px - меньше текст
+     */
+    .tab-btn {
+        padding: 15px 10px;
+        font-size: 14px;
+    }
+}
+
+
+/* =======================
+   АДАПТИВНЫЙ ДИЗАЙН (МОБИЛЬНЫЕ)
+   ======================= */
+
+/**
+ * Стили для экранов шириной до 480px (смартфоны)
+ */
+@media (max-width: 480px) {
+    /**
+     * Убирает отступы body на мобильных
+     * padding: 0 - без отступов
+     */
+    body {
+        padding: 0;
+    }
+
+    /**
+     * Уменьшает отступы шапки
+     * padding: 20px
+     */
+    .header {
+        padding: 20px;
+    }
+
+    /**
+     * Еще меньше размер счета
+     * font-size: 28px
+     */
+    .score-value {
+        font-size: 28px;
+    }
+
+    /**
+     * Еще меньше кнопка клика
+     * width/height: 120px
+     * font-size: 20px
+     */
+    .click-button {
+        width: 120px;
+        height: 120px;
+        font-size: 20px;
+    }
+
+    /**
+     * Еще меньше персонаж
+     * width/height: 120px
+     */
+    .character-container {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* =======================
+   УВЕДОМЛЕНИЯ
+   ======================= */
+
+/**
+ * Всплывающие уведомления (успех/ошибка)
+ */
+ .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 10000;
+    animation: slideIn 0.3s ease-out;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    max-width: 300px;
+}
+
+.notification-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.notification-error {
+    background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+}
+
+.notification-info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кликер Игра</title>
+    
+    <!-- ИЗМЕНЕНО: путь к CSS через Flask -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Контейнер для частиц (визуальные эффекты) -->
+    <div id="particlesContainer" class="particles-container"></div>
+    
+    <!-- Основной контейнер игры -->
+    <div class="game-container">
+        
+        <!-- ========== ШАПКА С СЧЕТОМ ========== -->
+        <div class="header">
+            <div class="score-display">
+                <div class="score-label">ОЧКИ</div>
+                <div class="score-value" id="score">0</div>
+                <div class="per-second">
+                    <span id="perSecond">0</span> в секунду
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== НАВИГАЦИЯ (ВКЛАДКИ) ========== -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('game')">Игра</button>
+            <button class="tab-btn" onclick="switchTab('shop')">Магазин</button>
+            <button class="tab-btn" onclick="switchTab('achievements')">Достижения</button>
+        </div>
+        
+        <!-- ========== КОНТЕНТ ВКЛАДОК ========== -->
+        
+        <!-- ВКЛАДКА: ИГРА -->
+        <div id="gameTab" class="tab-content active">
+            <div class="game-scene">
+                <!-- Персонаж -->
+                <div class="character-container">
+                    <svg id="character" class="character" viewBox="0 0 200 200">
+                        <!-- Тело -->
+                        <circle class="char-body" cx="100" cy="120" r="60" fill="#FFD700"/>
+                        <!-- Глаза -->
+                        <circle class="char-eye-left" cx="85" cy="110" r="8" fill="#333"/>
+                        <circle class="char-eye-right" cx="115" cy="110" r="8" fill="#333"/>
+                        <!-- Рот (улыбка) -->
+                        <path class="char-mouth" d="M 80 130 Q 100 145 120 130" stroke="#333" stroke-width="3" fill="none"/>
+                    </svg>
+                </div>
+                
+                <!-- Кнопка клика -->
+                <button id="clickButton" class="click-button">
+                    <div class="button-glow"></div>
+                    <span class="button-text">КЛИК!</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- ВКЛАДКА: МАГАЗИН -->
+        <div id="shopTab" class="tab-content">
+            <h2 style="margin-bottom: 30px; color: #333;">Улучшения</h2>
+            <div id="shopItems" class="shop-grid">
+                <!-- Заполняется JavaScript -->
+            </div>
+            
+            <h2 style="margin-top: 50px; margin-bottom: 30px; color: #333;">Скины</h2>
+            <div id="skinsContainer" class="shop-grid">
+                <!-- Заполняется JavaScript -->
+            </div>
+        </div>
+        
+        <!-- ВКЛАДКА: ДОСТИЖЕНИЯ -->
+        <div id="achievementsTab" class="tab-content">
+            <div id="achievementsContainer" class="achievements-grid">
+                <!-- Заполняется JavaScript -->
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- ИЗМЕНЕНО: путь к JS через Flask -->
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+</html>
