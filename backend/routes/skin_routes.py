@@ -42,7 +42,7 @@ def buy_skin():
         }), 404
     
     # Проверяем, не куплен ли уже
-    if skin.accquired_at:
+    if skin.acquired_at:
         return jsonify({
             'success': False,
             'error': 'Skin already acquired'
