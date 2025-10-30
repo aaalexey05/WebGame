@@ -1,7 +1,11 @@
 import os
 
 class Config:
-    """Базовая конфигурация приложения"""
+    """
+    Базовая конфигурация приложения
+    Version: v0.1 Pre Alpha
+    """
+
 
     # База данных
     basedir = os.path.abspath(os.path.dirname(__file__))
