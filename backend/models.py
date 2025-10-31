@@ -18,9 +18,9 @@ class User(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     
     # Relationships 
-    achievements_fk = db.relationship('Achievement', backref='user', lazy=True)
-    upgrades_fk = db.relationship('Upgrade', backref='user', lazy=True)
-    skins_fk = db.relationship('Skin', backref='user', lazy=True)
+    achievements = db.relationship('Achievement', backref='user', lazy=True, cascade="all, delete-orphan")
+    upgrades = db.relationship('Upgrade', backref='user', lazy=True, cascade="all, delete-orphan")
+    skins = db.relationship('Skin', backref='user', lazy=True, cascade="all, delete-orphan")
 
     def __init__(self):
         self.username = str(uuid.uuid4())
@@ -171,6 +171,7 @@ class Skin(db.Model):
             'description': self.description,
             'base_cost': self.base_cost,
             'is_active': self.is_active,
+            'is_owned': self.acquired_at is not None,
             'colors': self.colors,
             'acquired_at': self.acquired_at.isoformat() if self.acquired_at else None,
         }

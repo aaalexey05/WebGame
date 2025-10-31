@@ -86,7 +86,7 @@ def activate_skin():
     if not skin or skin.user_id != user.user_id:
         return jsonify({
             'success': False,
-            'error': 'Skin not found'
+            'error': 'Скин не найден'
         }), 404
     
     # Проверяем, куплен ли скин
