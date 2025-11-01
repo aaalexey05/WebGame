@@ -55,14 +55,26 @@ function visualAutoProduction() {
     }
 }
 
+const character = document.getElementById('character');
+
+function addCharacterJump() {
+    if (!character.classList.contains('happy')) {
+        character.classList.add('happy');
+        
+        // Один раз удалить класс после окончания анимации
+        character.addEventListener('animationend', () => {
+            character.classList.remove('happy');
+        }, { once: true });
+    }
+}
+
 document.getElementById('clickButton').addEventListener('click', (e) => {
     gameState.score += gameState.clickPower;
     pendingClicks += gameState.clickPower;
     updateDisplay();
-    
-    const character = document.getElementById('character');
-    character.classList.add('happy');
-    setTimeout(() => character.classList.remove('happy'), 500);
+
+    addCharacterJump();
+
     createParticle(e.clientX, e.clientY, `+${gameState.clickPower}`);
 });
 
@@ -174,7 +186,9 @@ function updateGameState(data) {
     if (data.user_score !== undefined) gameState.score = data.user_score;
     if (data.per_second !== undefined) gameState.perSecond = data.per_second;
     if (data.upgrades) gameState.upgrades = data.upgrades;
-    if (data.achievements) gameState.achievements = data.achievements;
+    if (data.achievements) {
+        gameState.achievements = Array.isArray(data.achievements) ? data.achievements : [];
+    }
     if (data.skins) gameState.skins = data.skins;
     if (data.upgrade) {
         const index = gameState.upgrades.findIndex(u => u.name === data.upgrade.name);
@@ -198,9 +212,9 @@ function renderAll() {
 function updateDisplay() {
     document.getElementById('score').textContent = formatNumber(gameState.score);
     document.getElementById('perSecond').textContent = formatNumber(gameState.perSecond);
-    // ИСПРАВЛЕНО: Перерисовываем магазины при каждом обновлении счета
     renderShop();
     renderSkins();
+    renderAchievements();
 }
 
 function renderShop() {
@@ -268,15 +282,24 @@ async function syncAchievements() {
     try {
         const response = await fetch(`${API_BASE}/achievements/`);
         if (!response.ok) return;
-        gameState.achievements = await response.json();
-        renderAchievements();
-    } catch (error) { console.error('Error syncing achievements:', error); }
+        const achievementsData = await response.json()
+        if (Array.isArray(achievementsData)) {
+            gameState.achievements = achievementsData;
+            renderAchievements();
+        } else {
+            console.warn('Achievements data is not array: ', achievementsData);
+        }
+    } catch (error) { 
+            console.error('Error syncing achievements:', error);
+    }
 }
 
 function renderAchievements() {
     const container = document.getElementById('achievementsContainer');
     container.innerHTML = '';
-    if (!gameState.achievements) return;
+
+    if (!Array.isArray(gameState.achievements)) return;
+    
     gameState.achievements.forEach(achievement => {
         const item = document.createElement('div');
         item.className = `achievement-item ${achievement.is_unlocked ? 'unlocked' : 'locked'}`;
