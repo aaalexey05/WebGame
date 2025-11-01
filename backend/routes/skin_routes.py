@@ -1,3 +1,4 @@
+# /backend/routes/skin_routes.py
 """
 API endpoints для работы со скинами
 """
